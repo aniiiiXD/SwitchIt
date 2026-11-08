@@ -89,3 +89,11 @@ section[id] { scroll-margin-top:100px; }
 @media(max-width:900px) { .guide-link { display:none; } .replay-heading { gap:32px; } }
 @media(max-width:760px) { .desktop-nav { display:none; } .menu-toggle { display:flex; } .mobile-menu { display:grid; padding:12px 24px 24px; gap:14px; } .replay-heading { grid-template-columns:1fr; gap:24px; } .replay-intro { justify-self:start; max-width:500px; } .replay-inner { padding:72px 24px 48px; } .replay-heading h2 { font-size:44px; } .replay-principles { align-items:flex-start; flex-direction:column; } .site-footer { padding:48px 24px 24px; } .footer-signature { padding-bottom:32px; } .nav-inner { height:72px; padding-inline:24px; } .wordmark { font-size:26px; } .nav-cta { font-size:12px; padding:10px 12px; } .nav-actions { gap:10px; } }
 @media(max-width:360px) { .nav-inner { padding-inline:20px; } .wordmark { font-size:24px; } .nav-cta { font-size:11px; padding:9px; } .replay-heading h2 { font-size:38px; } }
+
+/* Registry strip — links to the live packages */
+.registry-strip { border-top:1px solid rgba(255,255,255,0.12); padding:34px 6vw; }
+.registry-inner { display:flex; flex-wrap:wrap; align-items:center; gap:14px 26px; font-family:var(--font-mono, ui-monospace, monospace); font-size:12.5px; }
+.registry-label { color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:0.12em; }
+.registry-inner a { color:rgba(255,255,255,0.85); text-decoration:none; border:1px solid rgba(255,255,255,0.18); border-radius:999px; padding:6px 14px; transition:border-color 150ms, color 150ms; }
+.registry-inner a:hover { color:#fff; border-color:rgba(255,255,255,0.55); }
+.registry-inner a span[aria-hidden] { opacity:0.6; }
