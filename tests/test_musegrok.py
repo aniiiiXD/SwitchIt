@@ -102,18 +102,28 @@ class MuseGrokTests(unittest.TestCase):
         self.assertNotIn("Sup3rSecret!", joined)
         self.assertIn("[EMAIL]", joined)
 
-    def test_grok_build_directory_parses_history_and_summary(self):
+    def test_grok_build_documented_schema(self):
         session_dir = Path(self.tmp) / "grok" / "sessions" / "%2Frepo" / "uuid-1"
         session_dir.mkdir(parents=True)
-        (session_dir / "summary.json").write_text(json.dumps({"title": "Refactor auth", "model": "grok-4"}), encoding="utf-8")
+        (session_dir / "summary.json").write_text(json.dumps({
+            "info": {"id": "uuid-1", "cwd": "/repo"},
+            "generated_title": "Refactor auth", "current_model_id": "grok-4",
+            "session_kind": "worktree",
+        }), encoding="utf-8")
+        (session_dir / "system_prompt.txt").write_text("You are Grok, a coding agent.", encoding="utf-8")
         (session_dir / "chat_history.jsonl").write_text("\n".join([
-            json.dumps({"role": "user", "content": "Refactor the auth module"}),
-            json.dumps({"role": "assistant", "model": "grok-4",
-                        "tool_calls": [{"name": "edit_file", "arguments": {"path": "auth.py"}}],
-                        "content": "Done.", "usage": {"input_tokens": 700, "output_tokens": 90}}),
-            json.dumps({"role": "unknown-shape", "weird": True}),
+            json.dumps({"type": "user", "content": "<user_query>Refactor the auth module</user_query>"}),
+            json.dumps({"type": "assistant", "model_id": "grok-4", "content": "On it.",
+                        "tool_calls": [{"id": "call_1", "name": "edit_file",
+                                        "arguments": json.dumps({"path": "auth.py"})}]}),
+            json.dumps({"type": "tool_result", "tool_call_id": "call_1", "content": "file edited"}),
+            json.dumps({"type": "assistant", "model_id": "grok-4", "content": "Auth refactored."}),
+            json.dumps({"type": "reasoning", "encrypted_content": "opaque"}),
         ]), encoding="utf-8")
-        (session_dir / "events.jsonl").write_text(json.dumps({"type": "some-event"}) + "\n", encoding="utf-8")
+        (session_dir / "signals.json").write_text(json.dumps({"input_tokens": 5000, "output_tokens": 400}), encoding="utf-8")
+        (session_dir / "updates.jsonl").write_text(json.dumps({
+            "timestamp": 1, "method": "session/update",
+            "params": {"update": {"sessionUpdate": "turn_completed", "stopReason": "end_turn"}}}), encoding="utf-8")
         raws = agent_sessions.import_grok_build(session_dir)
         calls = [core.make_call(raw, "agents", "grok") for raw in raws]
         store = core.build_store(calls)
@@ -121,9 +131,18 @@ class MuseGrokTests(unittest.TestCase):
         self.assertEqual(trace["trace_id"], "grok-build:uuid-1")
         self.assertIn("Refactor the auth module", " ".join(trace["user_requests"]))
         self.assertIn("edit_file", trace["tool_names"])
-        assistant = [c for c in calls if c["response"]["text"] == "Done."][0]
-        self.assertEqual(assistant["model"], "grok-4")
-        self.assertEqual(assistant["usage"]["basis"], "recorded")
+        final = [c for c in calls if c["response"]["text"] == "Auth refactored."][0]
+        self.assertEqual(final["model"], "grok-4")
+        self.assertEqual(final["response"]["finish_reason"], "end_turn")
+        # Session-level usage totals land on the last assistant call, labeled.
+        self.assertEqual(final["usage"]["basis"], "recorded")
+        self.assertEqual(final["usage"]["estimator"], "grok_signals_session_totals")
+        self.assertEqual(final["usage"]["input_tokens"], 5000)
+        system = [m for m in calls[1]["request"]["messages"] if m["role"] == "system"]
+        self.assertTrue(system and "Grok" in system[0]["content"])
+        tool_result = [c for c in calls if c["request"]["messages"]
+                       and c["request"]["messages"][0].get("role") == "tool"]
+        self.assertTrue(any("file edited" in c["request"]["messages"][0]["content"] for c in tool_result))
 
     def test_grok_build_missing_directory_returns_empty(self):
         self.assertEqual(agent_sessions.import_grok_build(Path(self.tmp) / "nope"), [])

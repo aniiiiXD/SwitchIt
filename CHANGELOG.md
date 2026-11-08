@@ -4,6 +4,17 @@ All notable changes to SwitchIt! are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.5] - 2026-11-08
+
+### Changed
+- Grok Build importer upgraded from tolerant guess to schema-accurate: the
+  format was read from the open-source xai-org/grok-build storage module
+  (chat_history.jsonl ConversationItems with <user_query> stripping,
+  tool_calls with id/name/arguments, tool_results paired by call_id,
+  system_prompt.txt, session token totals from signals.json attached to the
+  last assistant call and estimator-labeled, stop reasons and failed-tool
+  marks backfilled from updates.jsonl).
+
 ## [0.1.4] - 2026-11-08
 
 ### Fixed
