@@ -8,8 +8,8 @@
 .route span:nth-child(1) { top: 20%; left: 9%; }
 .route span:nth-child(2) { top: 12%; right: 24%; }
 .route span:nth-child(3) { bottom: 18%; right: 11%; }
-.inner { position: relative; max-width: 1440px; min-height: calc(100svh - 88px); margin: 0 auto; padding: 92px 64px 0; display: flex; flex-direction: column; justify-content: space-between; }
-.main { max-width: 970px; padding: 38px 0 100px; }
+.inner { position: relative; max-width: 1440px; min-height: calc(100svh - 88px); margin: 0 auto; padding: 92px 64px 0; display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start; gap: 48px; }
+.main { max-width: 720px; padding: 38px 0 100px; }
 .label { margin: 0 0 32px; color: rgba(255,255,255,.8); font-size: 14px; line-height: 1.4; }
 .main h1 { margin: 0; font-size: clamp(58px, 7.1vw, 100px); line-height: .99; letter-spacing: -.055em; font-weight: 400; }
 .description { max-width: 510px; margin: 30px 0 0; color: rgba(255,255,255,.76); font-size: 17px; line-height: 1.55; }
@@ -19,14 +19,18 @@
 .button:hover { background: rgba(255,255,255,.22); }
 .textLink { gap: 12px; }
 .button:focus-visible, .textLink:focus-visible, .row:focus-visible { outline: 2px solid white; outline-offset: 4px; }
-.links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid rgba(255,255,255,.55); }
-.row { min-width: 0; padding: 20px 28px 28px 0; color: white; text-decoration: none; }
-.row + .row { border-left: 1px solid rgba(255,255,255,.3); padding-left: 28px; }
+.links { display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,.55); }
+.row { min-width: 0; padding: 20px 0 24px; color: white; text-decoration: none; }
+.row + .row { border-top: 1px solid rgba(255,255,255,.3); }
 .rowTop { display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.8); font-size: 15px; }
 .number { font-size: 12px; color: rgba(255,255,255,.6); }
 .rowTitle { display: block; margin-top: 22px; font-size: 21px; letter-spacing: -.02em; }
 .rowDescription { display: block; margin-top: 7px; color: rgba(255,255,255,.68); font-size: 13px; line-height: 1.45; }
 .row:hover .rowDescription { color: white; }
+@media (max-width: 1100px) {
+  .inner { flex-direction: column; gap: 40px; }
+  .side { width: 100%; padding-top: 0; }
+}
 @media (max-width: 767px) {
   .hero, .inner { min-height: 0; }
   .inner { padding: 72px 24px 0; }
@@ -56,5 +60,9 @@
 .miniLinks { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 15px; font-size: 12px; }
 .miniLinks a { color: rgba(255,255,255,.68); text-decoration: none; }
 .miniLinks a:hover { color: #fff; }
-.side { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
+.side { width: 470px; flex: none; display: flex; flex-direction: column; gap: 26px; min-width: 0; padding-top: 38px; }
+@media (max-width: 1100px) {
+  .inner { flex-direction: column; gap: 40px; }
+  .side { width: 100%; padding-top: 0; }
+}
 @media (max-width: 767px) { .installCard { max-width: none; margin-top: 8px; } }
