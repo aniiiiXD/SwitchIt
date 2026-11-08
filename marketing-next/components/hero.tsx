@@ -1,4 +1,5 @@
 import styles from "./hero.module.css";
+import { HeroInstallCard } from "./client";
 
 const links = [
   { number: "01", title: "Import", href: "#sources", description: "Bring the traces you already have." },
@@ -21,15 +22,18 @@ export default function Hero() {
             <a className={styles.textLink} href="#install">Get started <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <nav className={styles.links} aria-label="Explore SwitchIt">
-          {links.map((link) => (
-            <a className={styles.row} href={link.href} key={link.href}>
-              <span className={styles.rowTop}><span className={styles.number}>{link.number}</span><span aria-hidden="true">↗</span></span>
-              <span className={styles.rowTitle}>{link.title}</span>
-              <span className={styles.rowDescription}>{link.description}</span>
-            </a>
-          ))}
-        </nav>
+        <div className={styles.side}>
+          <HeroInstallCard />
+          <nav className={styles.links} aria-label="Explore SwitchIt">
+            {links.map((link) => (
+              <a className={styles.row} href={link.href} key={link.href}>
+                <span className={styles.rowTop}><span className={styles.number}>{link.number}</span><span aria-hidden="true">↗</span></span>
+                <span className={styles.rowTitle}>{link.title}</span>
+                <span className={styles.rowDescription}>{link.description}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
       </div>
     </section>
   );

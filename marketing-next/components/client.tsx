@@ -1,6 +1,52 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import styles from "./hero.module.css";
+
+const HERO_COMMANDS = [
+  { label: "pip", text: "pip install switchit-harness" },
+  { label: "npm", text: "npm install switchit-harness" },
+  { label: "demo", text: "switchit run --demo" },
+];
+
+export function HeroInstallCard() {
+  const [copied, setCopied] = useState<string | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function copy(command: string) {
+    void navigator.clipboard?.writeText(command).catch(() => undefined);
+    setCopied(command);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCopied(null), 1600);
+  }
+
+  return (
+    <div className={styles.installCard} aria-label="Install SwitchIt">
+      <p className={styles.installLabel}>Get started — 10 seconds, no credentials</p>
+      {HERO_COMMANDS.map(({ label, text }) => (
+        <div className={styles.cmdRow} key={label}>
+          <code className={styles.cmdText}><span aria-hidden="true">$ </span>{text}</code>
+          <button type="button" className={styles.copyBtn} onClick={() => copy(text)}>
+            {copied === text ? "Copied ✓" : "Copy"}
+          </button>
+        </div>
+      ))}
+      <a
+        className={styles.downloadBtn}
+        href="https://pypi.org/project/switchit-harness/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Download from PyPI <span aria-hidden="true">↗</span>
+      </a>
+      <div className={styles.miniLinks}>
+        <a href="https://www.npmjs.com/package/switchit-harness" target="_blank" rel="noreferrer">npm harness ↗</a>
+        <a href="https://www.npmjs.com/package/switchit-skill" target="_blank" rel="noreferrer">agent skill ↗</a>
+        <a href="https://github.com/aniiiiXD/SwitchIt" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </div>
+    </div>
+  );
+}
 
 export function CopyButton({ text, label = "Copy install command" }: { text: string; label?: string }) {
   const [copied, setCopied] = useState(false);

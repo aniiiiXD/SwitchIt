@@ -42,3 +42,19 @@
 }
 @media (max-width: 370px) { .inner { padding-left: 20px; padding-right: 20px; } }
 @media (prefers-reduced-motion: reduce) { .button { transition: none; } }
+
+/* Install CTA card — top-right, first thing the user sees */
+.installCard { position: relative; border: 1px solid rgba(255,255,255,.4); border-radius: 10px; background: rgba(8,8,8,.5); backdrop-filter: blur(14px); padding: 20px 20px 16px; max-width: 470px; }
+.installLabel { margin: 0 0 4px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+.cmdRow { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 11px 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 8px; background: rgba(0,0,0,.4); }
+.cmdText { color: #fff; font-size: 13px; white-space: nowrap; overflow-x: auto; }
+.cmdText span { color: rgba(255,255,255,.5); }
+.copyBtn { flex: none; font-size: 11px; padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: #fff; cursor: pointer; transition: background .15s; }
+.copyBtn:hover { background: rgba(255,255,255,.22); }
+.downloadBtn { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,.65); background: rgba(255,255,255,.12); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; backdrop-filter: blur(12px); transition: background .2s; }
+.downloadBtn:hover { background: rgba(255,255,255,.24); }
+.miniLinks { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 15px; font-size: 12px; }
+.miniLinks a { color: rgba(255,255,255,.68); text-decoration: none; }
+.miniLinks a:hover { color: #fff; }
+.side { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
+@media (max-width: 767px) { .installCard { max-width: none; margin-top: 8px; } }
