@@ -1,0 +1,44 @@
+.hero { position: relative; isolation: isolate; overflow: hidden; min-height: calc(100svh - 88px); color: #fff; background: #252b24; }
+.atmosphere { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(10, 14, 13, .76) 0%, rgba(15, 19, 16, .48) 48%, rgba(18, 22, 18, .13) 100%), linear-gradient(0deg, rgba(10, 13, 12, .6), transparent 50%), url('/images/runway-atmosphere.webp') center / cover no-repeat; }
+.route { position: absolute; z-index: -1; width: min(62vw, 850px); aspect-ratio: 1; right: -12%; top: -18%; border: 1px solid rgba(255, 255, 255, .14); border-radius: 50%; transform: rotate(-30deg); }
+.route::before, .route::after { content: ''; position: absolute; border: 1px solid rgba(255, 255, 255, .11); border-radius: 50%; }
+.route::before { inset: 9%; }
+.route::after { inset: 19%; }
+.route span { position: absolute; width: 7px; height: 7px; border: 1px solid rgba(255,255,255,.7); background: #b9b49a; border-radius: 50%; box-shadow: 0 0 0 5px rgba(255,255,255,.07); }
+.route span:nth-child(1) { top: 20%; left: 9%; }
+.route span:nth-child(2) { top: 12%; right: 24%; }
+.route span:nth-child(3) { bottom: 18%; right: 11%; }
+.inner { position: relative; max-width: 1440px; min-height: calc(100svh - 88px); margin: 0 auto; padding: 92px 64px 0; display: flex; flex-direction: column; justify-content: space-between; }
+.main { max-width: 970px; padding: 38px 0 100px; }
+.label { margin: 0 0 32px; color: rgba(255,255,255,.8); font-size: 14px; line-height: 1.4; }
+.main h1 { margin: 0; font-size: clamp(58px, 7.1vw, 100px); line-height: .99; letter-spacing: -.055em; font-weight: 400; }
+.description { max-width: 510px; margin: 30px 0 0; color: rgba(255,255,255,.76); font-size: 17px; line-height: 1.55; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-top: 32px; }
+.button, .textLink { display: inline-flex; align-items: center; justify-content: center; gap: 36px; color: white; font-size: 14px; font-weight: 500; text-decoration: none; }
+.button { min-height: 48px; padding: 0 17px; border: 1px solid rgba(255,255,255,.65); border-radius: 6px; background: rgba(255,255,255,.1); backdrop-filter: blur(12px); transition: background-color .2s; }
+.button:hover { background: rgba(255,255,255,.22); }
+.textLink { gap: 12px; }
+.button:focus-visible, .textLink:focus-visible, .row:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+.links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid rgba(255,255,255,.55); }
+.row { min-width: 0; padding: 20px 28px 28px 0; color: white; text-decoration: none; }
+.row + .row { border-left: 1px solid rgba(255,255,255,.3); padding-left: 28px; }
+.rowTop { display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,.8); font-size: 15px; }
+.number { font-size: 12px; color: rgba(255,255,255,.6); }
+.rowTitle { display: block; margin-top: 22px; font-size: 21px; letter-spacing: -.02em; }
+.rowDescription { display: block; margin-top: 7px; color: rgba(255,255,255,.68); font-size: 13px; line-height: 1.45; }
+.row:hover .rowDescription { color: white; }
+@media (max-width: 767px) {
+  .hero, .inner { min-height: 0; }
+  .inner { padding: 72px 24px 0; }
+  .main { padding: 0 0 76px; }
+  .label { margin-bottom: 27px; }
+  .main h1 { font-size: clamp(34px, 10vw, 70px); line-height: 1.02; }
+  .description { margin-top: 24px; font-size: 16px; }
+  .route { width: 105vw; right: -48%; top: 2%; opacity: .65; }
+  .links { grid-template-columns: 1fr; }
+  .row, .row + .row { padding: 17px 0 20px; border-left: 0; border-bottom: 1px solid rgba(255,255,255,.3); }
+  .rowTitle { margin-top: 10px; font-size: 19px; }
+  .rowDescription { margin-top: 4px; }
+}
+@media (max-width: 370px) { .inner { padding-left: 20px; padding-right: 20px; } }
+@media (prefers-reduced-motion: reduce) { .button { transition: none; } }

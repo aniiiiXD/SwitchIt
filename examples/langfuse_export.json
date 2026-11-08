@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "id": "t-lf-001",
+      "sessionId": "s-lf-1",
+      "observations": [
+        {
+          "id": "obs-1",
+          "type": "GENERATION",
+          "model": "gpt-4o-mini",
+          "startTime": "2026-01-01T00:00:00Z",
+          "endTime": "2026-01-01T00:00:01Z",
+          "input": {"messages": [{"role": "user", "content": "What is the status of order 88412?"}]},
+          "output": {"text": "Order 88412 is in transit.", "finish_reason": "stop"},
+          "usage": {"input": 480, "output": 90, "unit": "TOKENS"}
+        },
+        {
+          "id": "obs-2",
+          "type": "GENERATION",
+          "model": "gpt-4o-mini",
+          "startTime": "2026-01-01T00:00:02Z",
+          "endTime": "2026-01-01T00:00:03Z",
+          "level": "ERROR",
+          "statusMessage": "upstream timeout after 3000 ms",
+          "input": {"messages": [{"role": "user", "content": "I still have not been refunded for order 55119."}]},
+          "usage": {"input": 870, "output": null, "unit": "TOKENS"}
+        }
+      ]
+    }
+  ]
+}

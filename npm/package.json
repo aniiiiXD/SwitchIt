@@ -1,0 +1,36 @@
+{
+  "name": "switchit-skill",
+  "version": "0.1.0",
+  "description": "$switchit agent skill: plan and verify migration of an AI workflow from one model or provider to another using traces, adapters, and replay checks. One command installs the skill for any agent that reads ~/.agents/skills.",
+  "license": "MIT",
+  "author": "SwitchIt! contributors",
+  "bin": {
+    "switchit-skill": "bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "README.md"
+  ],
+  "keywords": [
+    "ai",
+    "agent",
+    "skill",
+    "mcp",
+    "llm",
+    "migration",
+    "openai",
+    "anthropic",
+    "bedrock",
+    "claude-code",
+    "codex",
+    "switchit"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/switchit-harness/switchit.git"
+  }
+}

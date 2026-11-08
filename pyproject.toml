@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "switchit-harness"
+version = "0.1.0"
+description = "Evidence-based migration of AI workflows between providers: import traces, replay them through adapters, and report what survives the switch."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "SwitchIt! contributors" }]
+keywords = [
+  "ai", "llm", "migration", "evaluation", "traces", "otel",
+  "openai", "anthropic", "bedrock", "agents", "replay", "mcp",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Software Development :: Testing",
+]
+# The core is stdlib-only by design: local import, mapping, and offline replay
+# never need a third-party package or a network call.
+dependencies = []
+
+[project.optional-dependencies]
+parquet = ["pyarrow>=14"]
+bedrock = ["boto3>=1.34"]
+all = ["pyarrow>=14", "boto3>=1.34"]
+dev = ["pyarrow>=14"]
+
+[project.scripts]
+switchit = "switchit.cli:main"
+switchit-mcp = "switchit.mcp_server:main"
+
+[tool.setuptools]
+packages = ["switchit"]

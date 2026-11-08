@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1040" viewBox="0 0 1560 1040" role="img" aria-label="SWITCHIT! / ONE MIGRATION RUN"><defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#e5e5e5" stroke-width=".5"/></pattern><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#85939d"/></marker></defs><style>text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.a{fill:none;stroke:#85939d;stroke-width:2.5;marker-end:url(#arrow)}.d{fill:none;stroke:#f39c12;stroke-width:2;stroke-dasharray:7 6;marker-end:url(#arrow)}</style><rect width="100%" height="100%" fill="#fafafa"/><rect width="100%" height="100%" fill="url(#grid)"/>
+<text x="45" y="55" font-size="30" fill="#333" font-weight="700">SWITCHIT! / ONE MIGRATION RUN</text>
+<text x="45" y="86" font-size="16" fill="#666">A trace-based path from current service to a verified candidate</text>
+<rect x="245" y="130" width="1070" height="90" rx="8" fill="#fff" stroke="#3498db" stroke-width="2"/>
+<text x="261" y="155" font-size="12" fill="#3498db" font-weight="bold" text-anchor="start">STEP / 01</text>
+<text x="261" y="187" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Capture current workload</text>
+<text x="261" y="214" font-size="14" fill="#666" font-weight="normal" text-anchor="start">authorized traces + prompts + tool schemas + existing usage</text>
+<rect x="245" y="260" width="1070" height="90" rx="8" fill="#fff" stroke="#9b59b6" stroke-width="2"/>
+<text x="261" y="285" font-size="12" fill="#9b59b6" font-weight="bold" text-anchor="start">STEP / 02</text>
+<text x="261" y="317" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Normalize and protect</text>
+<text x="261" y="344" font-size="14" fill="#666" font-weight="normal" text-anchor="start">link sessions, preserve IDs, redact secrets, separate recorded / estimated / unknown</text>
+<rect x="245" y="390" width="1070" height="90" rx="8" fill="#fff" stroke="#9b59b6" stroke-width="2"/>
+<text x="261" y="415" font-size="12" fill="#9b59b6" font-weight="bold" text-anchor="start">STEP / 03</text>
+<text x="261" y="447" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Discover workflows</text>
+<text x="261" y="474" font-size="14" fill="#666" font-weight="normal" text-anchor="start">group similar tasks; an agent reviews ambiguous categories with exact trace evidence</text>
+<rect x="245" y="520" width="1070" height="90" rx="8" fill="#fff" stroke="#9b59b6" stroke-width="2"/>
+<text x="261" y="545" font-size="12" fill="#9b59b6" font-weight="bold" text-anchor="start">STEP / 04</text>
+<text x="261" y="577" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Freeze representative checks</text>
+<text x="261" y="604" font-size="14" fill="#666" font-weight="normal" text-anchor="start">examples for common, expensive, risky, and failing workflows</text>
+<rect x="245" y="650" width="490" height="110" rx="8" fill="#fff" stroke="#3498db" stroke-width="2"/>
+<text x="261" y="675" font-size="12" fill="#3498db" font-weight="bold" text-anchor="start">STEP / 05A</text>
+<text x="261" y="707" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Current provider</text>
+<text x="261" y="734" font-size="14" fill="#666" font-weight="normal" text-anchor="start">replay baseline behavior</text>
+<text x="261" y="758" font-size="14" fill="#666" font-weight="normal" text-anchor="start">capture output + tool calls</text>
+<rect x="825" y="650" width="490" height="110" rx="8" fill="#fff" stroke="#3498db" stroke-width="2"/>
+<text x="841" y="675" font-size="12" fill="#3498db" font-weight="bold" text-anchor="start">STEP / 05B</text>
+<text x="841" y="707" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Candidate provider</text>
+<text x="841" y="734" font-size="14" fill="#666" font-weight="normal" text-anchor="start">use provider adapter</text>
+<text x="841" y="758" font-size="14" fill="#666" font-weight="normal" text-anchor="start">capture output + tool calls</text>
+<rect x="415" y="810" width="730" height="95" rx="8" fill="#fff" stroke="#27ae60" stroke-width="2"/>
+<text x="431" y="835" font-size="12" fill="#27ae60" font-weight="bold" text-anchor="start">STEP / 06</text>
+<text x="431" y="867" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Compare and inspect</text>
+<text x="431" y="894" font-size="14" fill="#666" font-weight="normal" text-anchor="start">outcome • tool fidelity • latency • token usage</text>
+<rect x="415" y="945" width="730" height="70" rx="8" fill="#f4fbf6" stroke="#27ae60" stroke-width="2"/>
+<text x="431" y="970" font-size="12" fill="#27ae60" font-weight="bold" text-anchor="start">STEP / 07</text>
+<text x="431" y="1002" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Report + migration plan</text>
+<text x="431" y="1029" font-size="14" fill="#666" font-weight="normal" text-anchor="start">pass, fail, uncertain, fixes, readiness</text>
+<path class="a" d="M780 220 V250"/>
+<path class="a" d="M780 350 V380"/>
+<path class="a" d="M780 480 V510"/>
+<path class="a" d="M780 610 V630 H490 V640"/>
+<path class="a" d="M780 630 H1070 V640"/>
+<path class="a" d="M490 760 V785 H760 V800"/>
+<path class="a" d="M1070 760 V785 H800 V800"/>
+<path class="a" d="M780 905 V935"/>
+<path class="d" d="M1150 860 H1370 V700 H1325"/>
+<text x="1190" y="835" font-size="14" fill="#b57710" font-weight="bold" text-anchor="start">If a case fails:</text>
+<text x="1190" y="857" font-size="14" fill="#666" font-weight="normal" text-anchor="start">fix adapter / prompt</text>
+<text x="1190" y="879" font-size="14" fill="#666" font-weight="normal" text-anchor="start">then replay</text>
+</svg>

@@ -1,0 +1,27 @@
+# Local state created by the harness
+.switchit/
+*.switchit/
+run/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+.next/
+.next-build/
+out/
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Scrape artifacts (design reference lives in docs/)
+.firecrawl/
+
+# Datasets and keys — never commit these
+*.parquet
+*.zip
+.env

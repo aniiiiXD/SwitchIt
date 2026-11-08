@@ -1,0 +1,43 @@
+{
+  "name": "retail-support-demo",
+  "prompts": [
+    {
+      "id": "system_main",
+      "role": "system",
+      "template": "You are a retail support agent. Help with orders, sign-in, and refunds."
+    }
+  ],
+  "tools": [
+    {
+      "name": "get_order_status",
+      "description": "Look up order status by id",
+      "parameters": {
+        "type": "object",
+        "properties": {"order_id": {"type": "string"}},
+        "required": ["order_id"]
+      }
+    },
+    {
+      "name": "reset_password",
+      "description": "Send a password reset link",
+      "parameters": {
+        "type": "object",
+        "properties": {"email": {"type": "string"}},
+        "required": ["email"]
+      }
+    },
+    {
+      "name": "issue_refund",
+      "description": "Refund an order line",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "order_id": {"type": "string"},
+          "reason": {"type": "string"}
+        },
+        "required": ["order_id", "reason"]
+      }
+    }
+  ],
+  "provider": {"provider": "openai", "model": "gpt-4o-mini", "base_url": null}
+}

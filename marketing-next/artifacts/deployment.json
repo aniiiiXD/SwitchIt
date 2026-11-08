@@ -1,0 +1,11 @@
+{
+  "productionUrl": "https://getswitchit.vercel.app",
+  "project": "getswitchit",
+  "scope": "aniiiixds-projects",
+  "projectId": "prj_NfEonM3Ws1uzNQCh2TzrR2BHXJL7",
+  "deploymentId": "dpl_8WsqJju1nfwinKhf6ew4htWUAhGw",
+  "deploymentUrl": "https://getswitchit-5ash2tvew-aniiiixds-projects.vercel.app",
+  "deploymentType": "static export",
+  "sourceDirectory": "out",
+  "stagingDirectory": "/tmp/switchit-vercel-release-20261108"
+}

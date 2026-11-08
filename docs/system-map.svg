@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000" role="img" aria-label="SWITCHIT! / SYSTEM MAP"><defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#e5e5e5" stroke-width=".5"/></pattern><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#85939d"/></marker></defs><style>text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.a{fill:none;stroke:#85939d;stroke-width:2.5;marker-end:url(#arrow)}.d{fill:none;stroke:#f39c12;stroke-width:2;stroke-dasharray:7 6;marker-end:url(#arrow)}</style><rect width="100%" height="100%" fill="#fafafa"/><rect width="100%" height="100%" fill="url(#grid)"/>
+<text x="45" y="55" font-size="30" fill="#333" font-weight="700">SWITCHIT! / SYSTEM MAP</text>
+<text x="45" y="86" font-size="16" fill="#666">Planned connectors, harness stages, and agent skills</text>
+<text x="45" y="130" font-size="14" fill="#666" font-weight="bold" text-anchor="start">INPUT CONNECTORS</text>
+<text x="430" y="130" font-size="14" fill="#666" font-weight="bold" text-anchor="start">THE HARNESS</text>
+<text x="1160" y="130" font-size="14" fill="#666" font-weight="bold" text-anchor="start">SKILLS / AGENT GUIDES</text>
+<rect x="45" y="155" width="310" height="140" rx="8" fill="#fff" stroke="#3498db" stroke-width="2"/>
+<text x="61" y="180" font-size="12" fill="#3498db" font-weight="bold" text-anchor="start">SOURCE / 01</text>
+<text x="61" y="212" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Telemetry</text>
+<text x="61" y="239" font-size="14" fill="#666" font-weight="normal" text-anchor="start">OpenTelemetry / OTLP spans</text>
+<text x="61" y="263" font-size="14" fill="#666" font-weight="normal" text-anchor="start">model, tool, token, latency data</text>
+<rect x="45" y="320" width="310" height="140" rx="8" fill="#fff" stroke="#3498db" stroke-width="2"/>
+<text x="61" y="345" font-size="12" fill="#3498db" font-weight="bold" text-anchor="start">SOURCE / 02</text>
+<text x="61" y="377" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Trace exports</text>
+<text x="61" y="404" font-size="14" fill="#666" font-weight="normal" text-anchor="start">JSONL, Parquet, Langfuse export</text>
+<text x="61" y="428" font-size="14" fill="#666" font-weight="normal" text-anchor="start">session and call IDs preserved</text>
+<rect x="45" y="485" width="310" height="140" rx="8" fill="#fff" stroke="#3498db" stroke-width="2"/>
+<text x="61" y="510" font-size="12" fill="#3498db" font-weight="bold" text-anchor="start">SOURCE / 03</text>
+<text x="61" y="542" font-size="19" fill="#333" font-weight="bold" text-anchor="start">App configuration</text>
+<text x="61" y="569" font-size="14" fill="#666" font-weight="normal" text-anchor="start">prompts, tool schemas, routing</text>
+<text x="61" y="593" font-size="14" fill="#666" font-weight="normal" text-anchor="start">provider options and budgets</text>
+<rect x="430" y="155" width="300" height="145" rx="8" fill="#fff" stroke="#9b59b6" stroke-width="2"/>
+<text x="446" y="180" font-size="12" fill="#9b59b6" font-weight="bold" text-anchor="start">CORE / 01</text>
+<text x="446" y="212" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Normalize + redact</text>
+<text x="446" y="239" font-size="14" fill="#666" font-weight="normal" text-anchor="start">canonical trace and usage fields</text>
+<text x="446" y="263" font-size="14" fill="#666" font-weight="normal" text-anchor="start">sensitive content stays local</text>
+<rect x="760" y="155" width="310" height="145" rx="8" fill="#fff" stroke="#9b59b6" stroke-width="2"/>
+<text x="776" y="180" font-size="12" fill="#9b59b6" font-weight="bold" text-anchor="start">CORE / 02</text>
+<text x="776" y="212" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Map workflows</text>
+<text x="776" y="239" font-size="14" fill="#666" font-weight="normal" text-anchor="start">cluster then label user intents</text>
+<text x="776" y="263" font-size="14" fill="#666" font-weight="normal" text-anchor="start">show evidence + uncertainty</text>
+<rect x="430" y="365" width="300" height="145" rx="8" fill="#fff" stroke="#9b59b6" stroke-width="2"/>
+<text x="446" y="390" font-size="12" fill="#9b59b6" font-weight="bold" text-anchor="start">CORE / 03</text>
+<text x="446" y="422" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Build replay set</text>
+<text x="446" y="449" font-size="14" fill="#666" font-weight="normal" text-anchor="start">representative and edge cases</text>
+<text x="446" y="473" font-size="14" fill="#666" font-weight="normal" text-anchor="start">freeze inputs + expected checks</text>
+<rect x="760" y="365" width="310" height="145" rx="8" fill="#fff" stroke="#3498db" stroke-width="2"/>
+<text x="776" y="390" font-size="12" fill="#3498db" font-weight="bold" text-anchor="start">ADAPTERS / 04</text>
+<text x="776" y="422" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Target providers</text>
+<text x="776" y="449" font-size="14" fill="#666" font-weight="normal" text-anchor="start">OpenAI-compatible, Anthropic</text>
+<text x="776" y="473" font-size="14" fill="#666" font-weight="normal" text-anchor="start">Bedrock, local / vLLM</text>
+<rect x="430" y="575" width="300" height="145" rx="8" fill="#fff" stroke="#27ae60" stroke-width="2"/>
+<text x="446" y="600" font-size="12" fill="#27ae60" font-weight="bold" text-anchor="start">CORE / 05</text>
+<text x="446" y="632" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Replay runner</text>
+<text x="446" y="659" font-size="14" fill="#666" font-weight="normal" text-anchor="start">same cases on source + target</text>
+<text x="446" y="683" font-size="14" fill="#666" font-weight="normal" text-anchor="start">capture output and tool actions</text>
+<rect x="760" y="575" width="310" height="145" rx="8" fill="#fff" stroke="#27ae60" stroke-width="2"/>
+<text x="776" y="600" font-size="12" fill="#27ae60" font-weight="bold" text-anchor="start">CORE / 06</text>
+<text x="776" y="632" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Compare</text>
+<text x="776" y="659" font-size="14" fill="#666" font-weight="normal" text-anchor="start">task outcome + tool behavior</text>
+<text x="776" y="683" font-size="14" fill="#666" font-weight="normal" text-anchor="start">latency + usage + failures</text>
+<rect x="430" y="785" width="640" height="130" rx="8" fill="#f4fbf6" stroke="#27ae60" stroke-width="2"/>
+<text x="446" y="810" font-size="12" fill="#27ae60" font-weight="bold" text-anchor="start">OUTPUT / 07</text>
+<text x="446" y="842" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Migration report</text>
+<text x="446" y="869" font-size="14" fill="#666" font-weight="normal" text-anchor="start">what works, what breaks, required changes</text>
+<text x="446" y="893" font-size="14" fill="#666" font-weight="normal" text-anchor="start">uncertain cases and cost/latency tradeoffs</text>
+<rect x="1160" y="155" width="355" height="105" rx="8" fill="#fffcf5" stroke="#f39c12" stroke-width="2"/>
+<text x="1176" y="180" font-size="12" fill="#f39c12" font-weight="bold" text-anchor="start">SKILL / 01</text>
+<text x="1176" y="212" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Import traces</text>
+<text x="1176" y="239" font-size="14" fill="#666" font-weight="normal" text-anchor="start">map source fields</text>
+<rect x="1160" y="290" width="355" height="105" rx="8" fill="#fffcf5" stroke="#f39c12" stroke-width="2"/>
+<text x="1176" y="315" font-size="12" fill="#f39c12" font-weight="bold" text-anchor="start">SKILL / 02</text>
+<text x="1176" y="347" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Find workflows</text>
+<text x="1176" y="374" font-size="14" fill="#666" font-weight="normal" text-anchor="start">review uncertain labels</text>
+<rect x="1160" y="425" width="355" height="105" rx="8" fill="#fffcf5" stroke="#f39c12" stroke-width="2"/>
+<text x="1176" y="450" font-size="12" fill="#f39c12" font-weight="bold" text-anchor="start">SKILL / 03</text>
+<text x="1176" y="482" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Design checks</text>
+<text x="1176" y="509" font-size="14" fill="#666" font-weight="normal" text-anchor="start">define real success</text>
+<rect x="1160" y="560" width="355" height="105" rx="8" fill="#fffcf5" stroke="#f39c12" stroke-width="2"/>
+<text x="1176" y="585" font-size="12" fill="#f39c12" font-weight="bold" text-anchor="start">SKILL / 04</text>
+<text x="1176" y="617" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Build adapter</text>
+<text x="1176" y="644" font-size="14" fill="#666" font-weight="normal" text-anchor="start">map tool interfaces</text>
+<rect x="1160" y="695" width="355" height="105" rx="8" fill="#fffcf5" stroke="#f39c12" stroke-width="2"/>
+<text x="1176" y="720" font-size="12" fill="#f39c12" font-weight="bold" text-anchor="start">SKILL / 05</text>
+<text x="1176" y="752" font-size="19" fill="#333" font-weight="bold" text-anchor="start">Plan migration</text>
+<text x="1176" y="779" font-size="14" fill="#666" font-weight="normal" text-anchor="start">prioritize fixes</text>
+<path class="a" d="M355 225 H420"/>
+<path class="a" d="M355 390 H390 V260 H420"/>
+<path class="a" d="M355 555 H390 V440 H420"/>
+<path class="a" d="M730 225 H750"/>
+<path class="a" d="M915 300 V335 H580 V355"/>
+<path class="a" d="M580 510 V565"/>
+<path class="a" d="M760 438 H745 V625 H735"/>
+<path class="a" d="M730 645 H750"/>
+<path class="a" d="M915 720 V755 H750 V775"/>
+<path class="d" d="M1150 207 H1115 V215 H1080"/>
+<path class="d" d="M1150 342 H1115 V225 H1080"/>
+<path class="d" d="M1150 477 H1115 V435 H1080"/>
+<path class="d" d="M1150 612 H1115 V435 H1080"/>
+<path class="d" d="M1150 747 H1115 V850 H1080"/>
+<text x="780" y="952" font-size="15" fill="#666" font-weight="normal" text-anchor="middle">Skills guide decisions • the harness runs reproducible code • adapters are plugins</text>
+</svg>

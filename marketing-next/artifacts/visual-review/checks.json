@@ -1,0 +1,19 @@
+{
+  "url": "https://getswitchit.vercel.app",
+  "checks": [
+    "wide: no horizontal overflow, rendered",
+    "desktop: no horizontal overflow, rendered",
+    "laptop: no horizontal overflow, rendered",
+    "tablet: no horizontal overflow, rendered",
+    "mobile: no horizontal overflow, rendered",
+    "narrow: no horizontal overflow, rendered",
+    "Workflow stage explorer changes content and supports arrow-key navigation",
+    "Three target selections replay; running and result states work",
+    "Replay evidence expands and collapses",
+    "Install/demo command controls, successful clipboard and denied clipboard work",
+    "Mobile replay and expanded evidence remain usable",
+    "Mobile navigation opens, Escape closes it, anchor navigation closes it",
+    "Guide and package download available",
+    "No browser console errors or uncaught exceptions"
+  ]
+}
