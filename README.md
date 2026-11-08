@@ -82,6 +82,9 @@ switchit profile --state-dir .switchit          # prompts, tool schemas, provide
 - **Codex**: `~/.codex/sessions/**/*.jsonl` — model calls, `function_call`s and outputs, token counts
 - **Claude Code**: `~/.claude/projects/**/*.jsonl` — transcripts with `tool_use` blocks and per-message usage
 - **OpenCode**: `~/.local/share/opencode/opencode.db` — message/part tables (read-only SQLite)
+- **Muse Code** (Meta): `~/.local/share/muse/sessions/**/session.jsonl` — event-sourced logs: runs, tool calls + results, recorded usage; subagent logs import as their own traces
+- **Grok Build** (xAI): `~/.grok/sessions/<cwd>/<id>/` — best-effort tolerant parser of `chat_history.jsonl`/`summary.json` (schema not publicly documented; review imported traces)
+- **Dot** (OpenAI): dot's own context is cloud-side, but **dot-created Codex threads on your Mac are local rollouts** — already covered by the Codex importer; no separate importer needed
 - **Cursor**: `~/.cursor/chats/*/*/store.db` — chat messages per workspace, system prompts, agentic tool calls (Cursor reports no usage, so those calls land in the `unknown` bucket)
 - **Cline**: `~/.cline/data/sessions/` and VS Code `globalStorage/saoudrizwan.claude-dev/tasks/` — SDK message files with per-message metrics, legacy task conversations with usage from `ui_messages.json`
 - **Gemini CLI**: `~/.gemini/tmp/*/chats/session-*.jsonl` — records with `toolCalls` (args, results, status) and per-message token counts; `$set`/`$patch`/`$rewindTo` update records applied by id

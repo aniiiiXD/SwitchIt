@@ -21,6 +21,7 @@ import json
 import re
 import sqlite3
 from collections import defaultdict
+from switchit import core as _core  # for normalizeToolCall
 from datetime import datetime
 from pathlib import Path
 
@@ -1080,6 +1081,232 @@ def import_copilot_cli(path) -> list:
 
 
 # ---------------------------------------------------------------------------
+# Muse Code (Meta) — event-sourced session.jsonl
+# ---------------------------------------------------------------------------
+
+
+def import_muse(path) -> list:
+    """Parse one Muse Code ``session.jsonl`` (Meta's coding agent CLI).
+
+    Layout documented via Meta's own session-evidence reader and the binary's
+    serde field names: every line is an envelope with ``recorded_at``
+    (microseconds), ``stream.id`` (the session id) and a ``payload`` keyed by
+    ``payload_type``. The conversation lives in
+    ``payload_type:"runtime.session"`` with ``payload.kind:"run"``:
+    ``event.kind`` ``started`` (the user prompt), ``assistant_message_committed``,
+    ``assistant_tool_calls_committed``, ``tool_result_batch_committed``,
+    ``model_completed`` (usage). Fact records nest values under
+    ``payload.record``. Subagent logs share the same format and import as
+    their own traces.
+    """
+    path = Path(path)
+    raw_calls = []
+    session_id = path.parent.name
+    trace_id = f"muse:{session_id}"
+    model_info = {}
+    runs = {}
+    run_order = []
+
+    def run_slot(run_id):
+        if run_id not in runs:
+            runs[run_id] = {"prompt": None, "text_parts": [], "tool_calls": [],
+                            "tool_results": [], "usage": None, "model": None,
+                            "finish": None, "error": None}
+            run_order.append(run_id)
+        return runs[run_id]
+
+    for record in _iter_jsonl(path):
+        if not isinstance(record, dict):
+            continue
+        if "retained_frame" in record or "retained_marker" in record:
+            continue  # permission frames and live-only markers carry no content
+        payload_type = record.get("payload_type")
+        payload = record.get("payload")
+        if not isinstance(payload, dict):
+            continue
+        if record.get("stream", {}).get("id"):
+            session_id = str(record["stream"]["id"])
+
+        if payload_type == "runtime.session.metadata":
+            inner = payload.get("record") or payload
+            if isinstance(inner, dict) and inner.get("model_id"):
+                model_info = {"model": inner.get("model_id"), "provider": inner.get("provider_id")}
+
+        elif payload_type == "runtime.session":
+            kind = payload.get("kind")
+            event = payload.get("event") if isinstance(payload.get("event"), dict) else {}
+            event_kind = event.get("kind")
+            run = run_slot(payload.get("run_id") or f"run-{len(run_order)}")
+
+            if kind == "run" and event_kind == "started":
+                prompt = event.get("prompt")
+                if isinstance(prompt, str) and prompt.strip():
+                    run["prompt"] = prompt
+            elif kind == "run" and event_kind == "assistant_message_committed":
+                text = event.get("text")
+                if isinstance(text, str) and text.strip():
+                    run["text_parts"].append(text)
+            elif kind == "run" and event_kind == "assistant_tool_calls_committed":
+                for call in event.get("tool_calls") or []:
+                    if not isinstance(call, dict) or not call.get("name"):
+                        continue
+                    args = call.get("args")
+                    if isinstance(args, str):
+                        args = _safe_json(args)
+                    run["tool_calls"].append({"name": str(call["name"]), "arguments": args if isinstance(args, dict) else {}})
+            elif kind == "run" and event_kind == "tool_result_batch_committed":
+                for result in event.get("results") or []:
+                    if isinstance(result, dict) and result.get("text"):
+                        run["tool_results"].append({"tool_call_id": result.get("tool_call_id"), "text": str(result["text"])})
+            elif kind == "run" and event_kind == "model_completed":
+                usage = event.get("usage") or {}
+                run["usage"] = {"input_tokens": usage.get("input_tokens"),
+                                "output_tokens": usage.get("output_tokens"), "basis": "recorded"}
+                if event.get("model"):
+                    run["model"] = str(event["model"])
+                if event.get("finish_reason"):
+                    run["finish"] = str(event["finish_reason"])
+
+    for run_id in run_order:
+        run = runs[run_id]
+        messages = []
+        if run["prompt"]:
+            messages.append({"role": "user", "content": run["prompt"]})
+        raw_calls.append(
+            {
+                "trace_id": trace_id,
+                "call_id": f"{session_id}:{run_id}",
+                "session_id": session_id,
+                "call_index": len(raw_calls),
+                "provider": (model_info or {}).get("provider") or "muse",
+                "model": run["model"] or (model_info or {}).get("model") or "muse",
+                "request": {"messages": messages},
+                "response": {
+                    "text": "\n\n".join(run["text_parts"]).strip(),
+                    "tool_calls": run["tool_calls"],
+                    "finish_reason": run["finish"] or ("tool_calls" if run["tool_calls"] else "stop"),
+                },
+                "usage": run["usage"],
+            }
+        )
+        for result in run["tool_results"]:
+            names = [call["name"] for call in run["tool_calls"] if call["name"]]
+            raw_calls.append(_tool_result_call(
+                trace_id, session_id, len(raw_calls),
+                names[0] if names else "unknown_tool", result["text"],
+            ))
+    return raw_calls
+
+
+def import_muse_tree(path) -> list:
+    """Walk a Muse sessions tree (or one session.jsonl), including subagent logs."""
+    target = Path(path)
+    if target.is_file() and target.name == "session.jsonl":
+        return import_muse(target)
+    if not target.exists():
+        return []
+    raw_calls = []
+    for session_file in sorted(target.glob("**/session.jsonl")):
+        raw_calls.extend(import_muse(session_file))
+    return raw_calls
+
+
+# ---------------------------------------------------------------------------
+# Grok Build (xAI) — best-effort; the record schema is not publicly documented
+# ---------------------------------------------------------------------------
+
+
+def import_grok_build(path) -> list:
+    """Parse one Grok Build session directory (``~/.grok/sessions/<cwd>/<id>/``).
+
+    Known file names (documented in Muse's import skill): ``summary.json``,
+    ``events.jsonl``, ``chat_history.jsonl``, ``updates.jsonl``. The record
+    schema is not publicly documented, so this parser is tolerant: message-ish
+    records (role/content, message.content, tool_calls) are read; everything
+    unknown is skipped. Review imported traces before relying on them.
+    """
+    directory = Path(path)
+    if directory.name in ("events.jsonl", "chat_history.jsonl"):
+        directory = directory.parent
+    session_id = directory.name
+    trace_id = f"grok-build:{session_id}"
+    raw_calls = []
+
+    summary = {}
+    summary_file = directory / "summary.json"
+    if summary_file.exists():
+        try:
+            loaded = json.loads(summary_file.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                summary = loaded
+        except (ValueError, OSError):
+            summary = {}
+    title = summary.get("title") or summary.get("name") or ""
+    if title:
+        raw_calls.append(
+            {
+                "trace_id": trace_id,
+                "call_id": f"{session_id}:title",
+                "session_id": session_id,
+                "call_index": 0,
+                "provider": "grok-build",
+                "model": "user-turn",
+                "request": {"messages": [{"role": "user", "content": f"[session] {title}"}]},
+                "response": None,
+                "usage": None,
+            }
+        )
+
+    history_file = directory / "chat_history.jsonl"
+    if history_file.exists():
+        for record in _iter_jsonl(history_file):
+            if not isinstance(record, dict):
+                continue
+            role = str(record.get("role") or record.get("type") or "").lower()
+            content = record.get("content")
+            if content is None and isinstance(record.get("message"), dict):
+                content = record["message"].get("content")
+            text = _gemini_text(content)
+            usage_record = record.get("usage") or {}
+            if role in ("user", "human") and text.strip():
+                raw_calls.append(
+                    {
+                        "trace_id": trace_id,
+                        "session_id": session_id,
+                        "call_index": len(raw_calls),
+                        "provider": "grok-build",
+                        "model": "user-turn",
+                        "request": {"messages": [{"role": "user", "content": text}]},
+                        "response": None,
+                        "usage": None,
+                    }
+                )
+            elif role in ("assistant", "grok", "model") and (text.strip() or record.get("tool_calls")):
+                tool_calls = [_core.normalize_tool_call(call) for call in (record.get("tool_calls") or []) if call]
+                usage = None
+                if usage_record.get("input_tokens") is not None or usage_record.get("output_tokens") is not None:
+                    usage = {"input_tokens": usage_record.get("input_tokens"),
+                             "output_tokens": usage_record.get("output_tokens"), "basis": "recorded"}
+                raw_calls.append(
+                    {
+                        "trace_id": trace_id,
+                        "session_id": session_id,
+                        "call_index": len(raw_calls),
+                        "provider": "grok-build",
+                        "model": record.get("model") or summary.get("model") or None,
+                        "request": {"messages": []},
+                        "response": {
+                            "text": text,
+                            "tool_calls": tool_calls,
+                            "finish_reason": record.get("finish_reason") or record.get("stop_reason"),
+                        },
+                        "usage": usage,
+                    }
+                )
+    return raw_calls
+
+
+# ---------------------------------------------------------------------------
 # Discovery
 # ---------------------------------------------------------------------------
 
@@ -1100,6 +1327,8 @@ AGENT_DEFAULTS = {
     "cline": _VSCODE_GLOBAL_STORAGE_CANDIDATES,
     "gemini-cli": [Path.home() / ".gemini" / "tmp"],
     "copilot-cli": [Path.home() / ".copilot" / "session-state"],
+    "muse": [Path.home() / ".local" / "share" / "muse" / "sessions"],
+    "grok-build": [Path.home() / ".grok" / "sessions"],
 }
 
 IMPORTERS_BY_AGENT = {
@@ -1110,6 +1339,8 @@ IMPORTERS_BY_AGENT = {
     "cline": import_cline,
     "gemini-cli": import_gemini_cli,
     "copilot-cli": import_copilot_cli,
+    "muse": import_muse_tree,
+    "grok-build": import_grok_build,
 }
 
 
@@ -1148,6 +1379,12 @@ def discover_agent_sessions(kinds=None, limit: int = 200) -> list:
                                key=lambda p: p.stat().st_mtime, reverse=True)
             elif kind == "copilot-cli":
                 files = sorted(base.glob("*/events.jsonl"),
+                               key=lambda p: p.stat().st_mtime, reverse=True)
+            elif kind == "muse":
+                files = sorted(base.glob("**/session.jsonl"),
+                               key=lambda p: p.stat().st_mtime, reverse=True)
+            elif kind == "grok-build":
+                files = sorted((d for d in base.glob("*/*") if d.is_dir() and ((d / "events.jsonl").exists() or (d / "chat_history.jsonl").exists())),
                                key=lambda p: p.stat().st_mtime, reverse=True)
             elif kind == "cline":
                 files = []

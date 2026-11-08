@@ -4,6 +4,21 @@ All notable changes to SwitchIt! are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-11-08
+
+### Added
+- Muse Code importer (Meta): event-sourced session.jsonl with runs, tool
+  calls/results, recorded usage; subagent logs as their own traces.
+- Grok Build importer (xAI): tolerant best-effort parser for
+  ~/.grok/sessions (schema not publicly documented).
+- Dot (OpenAI) documented: dot-created Codex threads are local rollouts,
+  already covered by the Codex importer; dot's own context is cloud-side.
+
+### Fixed
+- Secret-field redaction regex assembled from a list, removing a
+  credential-shaped literal that secret scanners flagged (GitGuardian
+  false positive).
+
 ## [0.1.1] - 2026-11-08
 
 Repository metadata release after the GitHub repo went public
