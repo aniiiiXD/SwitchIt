@@ -19,3 +19,4 @@
 >
 > Live site: https://getswitchit.vercel.app
 > https://pypi.org/project/switchit-harness/
+> https://www.npmjs.com/package/switchit-harness
