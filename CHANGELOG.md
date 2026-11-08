@@ -4,6 +4,21 @@ All notable changes to SwitchIt! are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.4] - 2026-11-08
+
+### Fixed
+- Cloud-thread stubs now skip threads that already have a local rollout
+  (trace-id prefix mismatch in the dedupe check, caught by the new tests
+  before 0.1.3's stubs could mislead a workflow map).
+
+## [0.1.3] - 2026-11-08
+
+### Added
+- Cloud-thread stubs: ChatGPT/Dot conversations known to the local thread
+  catalog import as title-level task traces (origin: cloud (ChatGPT)) when no
+  local rollout exists — the cloud/local split in the profile now covers Dot
+  activity. Transcripts are server-side; stubs support discovery, not replay.
+
 ## [0.1.2] - 2026-11-08
 
 ### Added

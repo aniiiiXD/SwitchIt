@@ -1432,6 +1432,43 @@ def codex_thread_catalog(db_path=None) -> dict:
     return catalog
 
 
+def catalog_stub_calls(catalog: dict, existing_trace_ids=None) -> list:
+    """Title-level task traces for catalog threads with no local transcript.
+
+    ChatGPT-cloud conversations (and Dot sessions that never spawned a local
+    Codex rollout) exist server-side; only their titles are known locally.
+    These stubs surface them in the workflow map as task-level evidence —
+    same honesty rules as Devin: no transcript, no replay, discovery only.
+    """
+    existing_trace_ids = set(existing_trace_ids or [])
+    raw_calls = []
+    for thread_id, info in catalog.items():
+        # A local rollout of the same thread carries the full transcript,
+        # whichever prefix it was imported under (codex:, chatgpt:, ...).
+        if any(f"{prefix}:{thread_id}" in existing_trace_ids for prefix in ("codex", "chatgpt", "cli", "vscode")):
+            continue
+        title = info.get("title") or ""
+        if not title:
+            continue
+        trace_id = f"chatgpt:{thread_id}"
+        raw_calls.append(
+            {
+                "trace_id": trace_id,
+                "call_id": f"{thread_id}:task",
+                "session_id": thread_id,
+                "call_index": 0,
+                "provider": "chatgpt-cloud",
+                "model": "cloud-thread",
+                "request": {"messages": [{"role": "user", "content": f"[cloud thread] {title}"}]},
+                "response": {"text": "[session outcome] transcript stored server-side by OpenAI; only the title is available locally.",
+                             "tool_calls": [], "finish_reason": "stop"},
+                "usage": None,
+                "origin": info.get("origin") or "cloud (ChatGPT)",
+            }
+        )
+    return raw_calls
+
+
 def collect_session_meta(sessions: list, catalog_db=None) -> dict:
     """Gather per-trace session metadata (title, origin, cwd) for imported sessions.
 

@@ -188,6 +188,22 @@ def cmd_import(args) -> int:
                 core.make_call(raw, "agents", "local-session-folders") for raw in agent_calls
             )
             session_meta = agent_sessions.collect_session_meta(discovered)
+            catalog = agent_sessions.codex_thread_catalog()
+            existing = {call["trace_id"] for call in calls}
+            stub_calls = agent_sessions.catalog_stub_calls(catalog, existing)
+            if stub_calls:
+                calls.extend(core.make_call(raw, "agents", "codex-thread-catalog") for raw in stub_calls)
+                session_meta = session_meta or {}
+                for raw in stub_calls:
+                    if raw.get("origin"):
+                        session_meta[raw["trace_id"]] = {"origin": raw["origin"], "title": raw.get("title")}
+                source_files.append({"importer": "agents", "path": "codex-dev.db thread catalog",
+                                     "records": len(stub_calls)})
+                notes.append(
+                    "Cloud-side ChatGPT/Dot threads appear as title-only task stubs from the local "
+                    "thread catalog — transcripts are stored server-side by OpenAI, so these support "
+                    "workflow discovery, not replay."
+                )
             source_files.append({"importer": "agents", "path": "auto-discovered local session folders",
                                  "records": len(agent_calls)})
             notes.append(
