@@ -57,11 +57,13 @@ export function MigrationPreview() {
 }
 
 const commands = {
-  Install: "python3 -m pip install ./switchit_harness-0.1.0-py3-none-any.whl",
-  "Run demo": "python3 -m switchit.cli run --demo --state-dir .switchit-demo",
+  "Install (PyPI)": "pip install switchit-harness",
+  "Install (npm)": "npm install switchit-harness",
+  "Agent skill": "npx switchit-skill",
+  "Run demo": "switchit run --demo --state-dir .switchit-demo",
 };
 export function InstallPanel() {
-  const [tab, setTab] = useState<keyof typeof commands>("Install");
+  const [tab, setTab] = useState<keyof typeof commands>("Install (PyPI)");
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   async function copy() {
     try {
@@ -71,7 +73,7 @@ export function InstallPanel() {
   }
   function choose(next: keyof typeof commands) { setTab(next); setCopyState("idle"); }
   return <section id="install" className={styles.install}><div className={styles.installInner}>
-    <div className={styles.installCopy}><span className={styles.installEyebrow}><span /> Get started</span><h2>Make your next switch with evidence.</h2><p>Download the package and try the bundled synthetic demo. No credentials needed.</p><div className={styles.installLinks}><a href="/downloads/switchit_harness-0.1.0-py3-none-any.whl" download>Download package <span aria-hidden="true">↗</span></a><a href="/guide/">Read the setup guide <span aria-hidden="true">↗</span></a></div></div>
-    <div className={styles.terminal}><div className={styles.terminalTop}><div className={styles.tabs} aria-label="Command"><button className={tab === "Install" ? styles.activeTab : ""} aria-pressed={tab === "Install"} onClick={() => choose("Install")}>Install</button><button className={tab === "Run demo" ? styles.activeTab : ""} aria-pressed={tab === "Run demo"} onClick={() => choose("Run demo")}>Run demo</button></div><span>terminal</span></div><div className={styles.command}><span aria-hidden="true">$</span><code>{commands[tab]}</code><button onClick={copy}>{copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy"}</button></div><p className={styles.terminalNote} aria-live="polite">{copyState === "failed" ? "Select the command and copy it manually." : tab === "Install" ? "Run from the folder containing the downloaded package (Python 3.10+)." : "Runs locally with synthetic traces."}</p></div>
+    <div className={styles.installCopy}><span className={styles.installEyebrow}><span /> Get started</span><h2>Make your next switch with evidence.</h2><p>Grab the package from PyPI or npm and try the bundled synthetic demo. No credentials needed. The demo command below ships inside both packages.</p><div className={styles.installLinks}><a href="https://pypi.org/project/switchit-harness/" target="_blank" rel="noreferrer">PyPI — switchit-harness <span aria-hidden="true">↗</span></a><a href="https://www.npmjs.com/package/switchit-harness" target="_blank" rel="noreferrer">npm — switchit-harness <span aria-hidden="true">↗</span></a><a href="https://www.npmjs.com/package/switchit-skill" target="_blank" rel="noreferrer">npm — switchit-skill <span aria-hidden="true">↗</span></a><a href="https://github.com/aniiiiXD/SwitchIt" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a><a href="/guide/">Read the setup guide <span aria-hidden="true">↗</span></a></div></div>
+    <div className={styles.terminal}><div className={styles.terminalTop}><div className={styles.tabs} aria-label="Command">{Object.keys(commands).map((label) => <button key={label} className={tab === label ? styles.activeTab : ""} aria-pressed={tab === label} onClick={() => choose(label as keyof typeof commands)}>{label}</button>)}</div><span>terminal</span></div><div className={styles.command}><span aria-hidden="true">$</span><code>{commands[tab]}</code><button onClick={copy}>{copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy"}</button></div><p className={styles.terminalNote} aria-live="polite">{copyState === "failed" ? "Select the command and copy it manually." : tab === "Agent skill" ? "Installs the $switchit skill for agents that read ~/.agents/skills." : tab === "Run demo" ? "Runs locally with synthetic traces — no credentials, no network." : tab === "Install (npm)" ? "Node 20+. Adds the switchit and switchit-mcp commands." : "Python 3.10+. Core is stdlib-only; extras (pyarrow, boto3) are opt-in."}</p></div>
   </div></section>;
 }

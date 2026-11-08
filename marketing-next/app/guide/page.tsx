@@ -5,13 +5,16 @@ export default function Guide() {
   <a className="guide-back" href="/">← Back to SwitchIt!</a>
   <h1>Your first switch starts here.</h1>
   <p className="intro">Run a complete migration comparison on synthetic workflows. Everything stays local, and you don’t need a provider account.</p>
-  <section><h2>Install SwitchIt!</h2><p>You’ll need Python 3.10 or newer. Download the package, then run this from your downloads folder. A virtual environment keeps the install separate from your other projects.</p><a className="guide-download" href="/downloads/switchit_harness-0.1.0-py3-none-any.whl" download>Download v0.1.0 package</a><pre><code>{[
-   "python3 -m venv .venv",
-   "# macOS / Linux",
-   "source .venv/bin/activate",
-   "# Windows PowerShell: .venv\\Scripts\\Activate.ps1",
-   "python -m pip install ./switchit_harness-0.1.0-py3-none-any.whl"
-  ].join("\n")}</code></pre><p>Already have the source repository? Run <code>python -m pip install .</code> from its root instead.</p></section>
+  <section><h2>Install SwitchIt!</h2><p>Grab it from PyPI (Python 3.10+) or npm (Node 20+). A virtual environment keeps the Python install separate from your other projects.</p><pre><code>{[
+   "# Python harness — from PyPI",
+   "pip install switchit-harness",
+   "",
+   "# JavaScript harness — from npm",
+   "npm install switchit-harness",
+   "",
+   "# Agent skill — one command, any compatible agent",
+   "npx switchit-skill"
+  ].join("\n")}</code></pre><p>Building from source? Run <code>pip install .</code> (Python) or <code>npm install &amp;&amp; npm run build</code> (JS) from the repository root instead.</p></section>
   <section><h2>Run the offline demo</h2><pre><code>switchit run --demo --state-dir .switchit-demo</code></pre><p>Open <code>.switchit-demo/run/report.html</code> in your browser. The bundled traces and mock target let you explore the workflow without sending data to a provider. The report includes passes, failures, errors, and uncertainties.</p></section>
   <section><h2>Bring your own workflows</h2><p>Import authorized local coding-agent sessions, then review the workflow map and define success checks before replaying.</p><pre><code>{[
    "switchit import --agents --state-dir .switchit",
