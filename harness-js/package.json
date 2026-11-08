@@ -1,6 +1,6 @@
 {
   "name": "switchit-harness",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Evidence-based migration of AI workflows between providers: import traces, replay them through adapters, and report what survives the switch.",
   "license": "MIT",
   "author": "SwitchIt! contributors",
@@ -38,5 +38,12 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aniiiiXD/SwitchIt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aniiiiXD/SwitchIt/issues"
   }
 }

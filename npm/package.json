@@ -1,6 +1,6 @@
 {
   "name": "switchit-skill",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "$switchit agent skill: plan and verify migration of an AI workflow from one model or provider to another using traces, adapters, and replay checks. One command installs the skill for any agent that reads ~/.agents/skills.",
   "license": "MIT",
   "author": "SwitchIt! contributors",
@@ -31,6 +31,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/switchit-harness/switchit.git"
+    "url": "git+https://github.com/aniiiiXD/SwitchIt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aniiiiXD/SwitchIt/issues"
   }
 }

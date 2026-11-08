@@ -4,6 +4,17 @@ All notable changes to SwitchIt! are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-11-08
+
+Repository metadata release after the GitHub repo went public
+(github.com/aniiiiXD/SwitchIt).
+
+### Added
+- Repository and issue-tracker URLs on PyPI and npm package metadata.
+
+### Changed
+- Version bump across PyPI, npm (harness), and npm (skill) to 0.1.1.
+
 ## [0.1.0] - 2026-11-06
 
 First usable release: the complete offline pipeline plus explicit-opt-in live replay.

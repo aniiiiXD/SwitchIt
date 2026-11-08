@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "switchit-harness"
-version = "0.1.0"
+version = "0.1.1"
 description = "Evidence-based migration of AI workflows between providers: import traces, replay them through adapters, and report what survives the switch."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -41,6 +41,10 @@ dev = ["pyarrow>=14"]
 [project.scripts]
 switchit = "switchit.cli:main"
 switchit-mcp = "switchit.mcp_server:main"
+
+[project.urls]
+Repository = "https://github.com/aniiiiXD/SwitchIt"
+Issues = "https://github.com/aniiiiXD/SwitchIt/issues"
 
 [tool.setuptools]
 packages = ["switchit"]
