@@ -1,5 +1,7 @@
 # SwitchIt!
 
+**Codex, Claude Code, Devin, Grok, and Muse remain the agents SwitchIt helps you move between: it captures workflows from their sessions, maps dependencies, and tests whether another agent can reproduce the required outcomes; the dynamic harness would adapt tools, context, and execution settings to make that transition work, wherever each agent’s APIs allow.**
+
 SwitchIt! helps teams move AI workflows from one provider to another with evidence that the important behavior survives the move.
 
 The harness ingests authorized traces and application configuration, maps the workflows people actually use, selects representative replay cases, runs them against a target provider, and compares task outcomes, tool behavior, latency, and token usage. It produces a migration report with failures, uncertainties, and concrete changes needed.
